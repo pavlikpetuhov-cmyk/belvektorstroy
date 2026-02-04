@@ -10,7 +10,7 @@ const TitleSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80')`,
+        backgroundImage: `url('https://images.pexels.com/photos/27178418/pexels-photo-27178418.jpeg?w=1920&q=80')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
