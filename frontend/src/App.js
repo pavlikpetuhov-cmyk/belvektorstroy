@@ -10,7 +10,7 @@ const TitleSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80&fit=crop')`,
+        backgroundImage: `url('/images/hero.jpg')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
@@ -104,7 +104,7 @@ const AirportSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80&fit=crop')`,
+        backgroundImage: `url('/images/airport.jpg')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
@@ -149,7 +149,7 @@ const WinerySlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80&fit=crop')`,
+        backgroundImage: `url('/images/winery.jpg')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-l from-black via-black/80 to-transparent" />
@@ -207,7 +207,7 @@ const PanelsSlide = () => (
           <div 
             className="h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&fit=crop')`,
+              backgroundImage: `url('/images/panels1.jpg')`,
             }}
           />
           <div className="p-6">
@@ -220,7 +220,7 @@ const PanelsSlide = () => (
           <div 
             className="h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80&fit=crop')`,
+              backgroundImage: `url('/images/panels2.jpg')`,
             }}
           />
           <div className="p-6">
@@ -247,7 +247,7 @@ const GelendzhikSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80&fit=crop')`,
+        backgroundImage: `url('/images/gelendzhik.jpg')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
