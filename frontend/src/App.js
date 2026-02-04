@@ -207,7 +207,7 @@ const PanelsSlide = () => (
           <div 
             className="h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80')`,
+              backgroundImage: `url('https://images.unsplash.com/photo-1762419757094-f9402c3d489d?w=800&q=80')`,
             }}
           />
           <div className="p-6">
@@ -220,7 +220,7 @@ const PanelsSlide = () => (
           <div 
             className="h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80')`,
+              backgroundImage: `url('https://images.unsplash.com/photo-1768270181430-3e3672a32283?w=800&q=80')`,
             }}
           />
           <div className="p-6">
