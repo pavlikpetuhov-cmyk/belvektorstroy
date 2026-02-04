@@ -10,7 +10,7 @@ const TitleSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.pexels.com/photos/27178418/pexels-photo-27178418.jpeg?w=1920&q=80')`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80&fit=crop')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
@@ -104,7 +104,7 @@ const AirportSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.pexels.com/photos/13315324/pexels-photo-13315324.jpeg?w=1920&q=80')`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80&fit=crop')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
@@ -149,7 +149,7 @@ const WinerySlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1737404951568-f76c1abd8e2b?w=1920&q=80')`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80&fit=crop')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-l from-black via-black/80 to-transparent" />
@@ -207,7 +207,7 @@ const PanelsSlide = () => (
           <div 
             className="h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1762419757094-f9402c3d489d?w=800&q=80')`,
+              backgroundImage: `url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&fit=crop')`,
             }}
           />
           <div className="p-6">
@@ -220,7 +220,7 @@ const PanelsSlide = () => (
           <div 
             className="h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1768270181430-3e3672a32283?w=800&q=80')`,
+              backgroundImage: `url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80&fit=crop')`,
             }}
           />
           <div className="p-6">
@@ -247,7 +247,7 @@ const GelendzhikSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1762751042129-4d35e59ed1e8?w=1920&q=80')`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80&fit=crop')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
