@@ -294,12 +294,12 @@ const ContactSlide = ({ onExport, isExporting }) => (
         <div className="bg-[#1C1C1C] p-8 industrial-border">
           <Phone size={32} className="text-[#FF5F1F] mx-auto mb-4" />
           <p className="text-zinc-400 text-sm mb-2">Телефон</p>
-          <p className="font-heading text-xl font-bold">8-913-210-22-13</p>
+          <p className="font-heading text-xl font-bold">8-903-167-79-00</p>
         </div>
         <div className="bg-[#1C1C1C] p-8 industrial-border">
           <Mail size={32} className="text-[#FF5F1F] mx-auto mb-4" />
           <p className="text-zinc-400 text-sm mb-2">Email</p>
-          <p className="font-heading text-xl font-bold">info@stroyprofi.ru</p>
+          <p className="font-heading text-xl font-bold">stroyblagoaero@mail.ru</p>
         </div>
         <div className="bg-[#1C1C1C] p-8 industrial-border">
           <MapPin size={32} className="text-[#FF5F1F] mx-auto mb-4" />
@@ -319,7 +319,7 @@ const ContactSlide = ({ onExport, isExporting }) => (
       </button>
       
       <p className="text-zinc-600 text-sm mt-8">
-        © 2024 СтройПрофи. Все права защищены.
+        © 2024 БелВекторСтрой. Все права защищены.
       </p>
     </div>
   </section>
@@ -439,7 +439,7 @@ function App() {
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
       }
       
-      pdf.save('СтройПрофи_Презентация.pdf');
+      pdf.save('БелВекторСтрой_Презентация.pdf');
     } catch (error) {
       console.error('Error exporting PDF:', error);
       alert('Ошибка при создании PDF. Попробуйте снова.');
