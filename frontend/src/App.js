@@ -149,7 +149,7 @@ const WinerySlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80')`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1737404951568-f76c1abd8e2b?w=1920&q=80')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-l from-black via-black/80 to-transparent" />
