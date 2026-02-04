@@ -23,7 +23,7 @@ const TitleSlide = () => (
         Строительная компания
       </p>
       <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold uppercase tracking-tight mb-6 animate-slide-up">
-        СтройПрофи
+        БелВекторСтрой
       </h1>
       <p className="text-xl md:text-2xl text-zinc-300 mb-8 animate-slide-up delay-200">
         Строим масштабные объекты по всей России
