@@ -247,7 +247,7 @@ const GelendzhikSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=1920&q=80')`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1762751042129-4d35e59ed1e8?w=1920&q=80')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
