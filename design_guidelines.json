@@ -1,0 +1,153 @@
+{
+  "design_system": {
+    "identity": {
+      "name": "E1 Industrial Portfolio",
+      "tone": "Brutalist, Industrial, High-Contrast, Professional",
+      "theme": "dark"
+    },
+    "typography": {
+      "font_family": {
+        "headings": "Oswald, sans-serif",
+        "body": "Manrope, sans-serif"
+      },
+      "weights": {
+        "headings": "700",
+        "body": "400, 500"
+      },
+      "sizes": {
+        "h1": "text-6xl md:text-8xl tracking-tighter uppercase",
+        "h2": "text-4xl md:text-6xl tracking-tight uppercase",
+        "h3": "text-2xl md:text-3xl font-bold uppercase",
+        "body": "text-base md:text-lg leading-relaxed",
+        "label": "text-sm tracking-[0.2em] uppercase font-bold text-zinc-500"
+      },
+      "google_fonts_import": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Oswald:wght@400;500;700&display=swap"
+    },
+    "colors": {
+      "palette": {
+        "background": "#0A0A0A",
+        "surface": "#1C1C1C",
+        "surface_highlight": "#27272A",
+        "primary": "#FF5F1F",
+        "secondary": "#FFD700",
+        "text_primary": "#FFFFFF",
+        "text_secondary": "#A1A1AA",
+        "border": "#3F3F46"
+      },
+      "usage": {
+        "body_bg": "bg-[#0A0A0A]",
+        "card_bg": "bg-[#1C1C1C]",
+        "accent_text": "text-[#FF5F1F]",
+        "accent_bg": "bg-[#FF5F1F]",
+        "border_color": "border-[#3F3F46]"
+      }
+    },
+    "layout": {
+      "spacing": {
+        "container_padding": "p-6 md:p-12 lg:p-20",
+        "section_gap": "gap-12 md:gap-24"
+      },
+      "grid": {
+        "bento": "grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8",
+        "project_gallery": "grid grid-cols-1 md:grid-cols-2 gap-0"
+      },
+      "effects": {
+        "diagonal_clip": "clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%)",
+        "glass_panel": "bg-black/60 backdrop-blur-xl border border-white/10",
+        "industrial_border": "border-2 border-zinc-800 hover:border-[#FF5F1F] transition-colors duration-300"
+      }
+    },
+    "components": {
+      "buttons": {
+        "primary": "bg-[#FF5F1F] text-white hover:bg-[#E04F16] rounded-none px-8 py-4 font-bold uppercase tracking-wider transition-all",
+        "outline": "border-2 border-white/20 text-white hover:border-[#FF5F1F] hover:text-[#FF5F1F] rounded-none px-8 py-4 font-bold uppercase tracking-wider transition-all",
+        "pdf_export": "fixed bottom-8 right-8 z-50 bg-[#FF5F1F] text-white p-4 shadow-2xl hover:scale-105 transition-transform rounded-full"
+      },
+      "cards": {
+        "project": "group relative overflow-hidden bg-[#1C1C1C] border border-zinc-800 hover:border-[#FF5F1F] transition-all duration-500",
+        "stat": "bg-zinc-900/50 p-6 border-l-4 border-[#FF5F1F]"
+      }
+    },
+    "motion": {
+      "transitions": {
+        "default": "transition-all duration-300 ease-out",
+        "slow": "transition-all duration-700 ease-in-out"
+      },
+      "animations": {
+        "slide_in": "animate-in slide-in-from-bottom-10 fade-in duration-700",
+        "hover_scale": "hover:scale-[1.02] transition-transform duration-300"
+      }
+    }
+  },
+  "assets": {
+    "images": {
+      "hero_bg": "https://images.unsplash.com/photo-1763281486056-9fd34c978a7d",
+      "projects": {
+        "airport": "https://images.unsplash.com/photo-1766075012290-12c9b0a24455",
+        "winery_crimea": "https://images.unsplash.com/photo-1737918057322-4378348ae589",
+        "brass_panels": "https://images.unsplash.com/photo-1638888077595-039e77b1dc70",
+        "gazprom_bank": "https://images.unsplash.com/photo-1765207373297-9c562a2521d0",
+        "winery_gelendzhik": "https://images.unsplash.com/photo-1724088695023-ab4aca08b8dc"
+      }
+    },
+    "icons": "lucide-react"
+  },
+  "implementation_plan": {
+    "pages": [
+      {
+        "id": "slide-1",
+        "name": "Title Slide",
+        "content": "Company Name, Slogan, Hero Image Background",
+        "layout": "Fullscreen Hero"
+      },
+      {
+        "id": "slide-2",
+        "name": "About Company",
+        "content": "Competencies, Stats, Industrial Grid",
+        "layout": "Bento Grid"
+      },
+      {
+        "id": "slide-3",
+        "name": "Project: Blagoveshchensk Airport",
+        "content": "26000 m2 partitions, Image Gallery, Stats",
+        "layout": "Split Screen"
+      },
+      {
+        "id": "slide-4",
+        "name": "Project: Wine Park Crimea",
+        "content": "Concrete & Glass, Landscape integration",
+        "layout": "Immersive Image"
+      },
+      {
+        "id": "slide-5",
+        "name": "Project: Brass Panels / Gazprom",
+        "content": "5000 m2 decorative panels, Interior details",
+        "layout": "Detail Focus"
+      },
+      {
+        "id": "slide-6",
+        "name": "Project: Wine Park Gelendzhik",
+        "content": "Winery architecture",
+        "layout": "Split Screen"
+      },
+      {
+        "id": "slide-7",
+        "name": "Contacts & Export",
+        "content": "Contact Info, PDF Download CTA",
+        "layout": "Minimal Center"
+      }
+    ],
+    "technical_requirements": {
+      "pdf_export": "Use html2canvas and jspdf. Create a specific 'print-mode' CSS class to ensure layouts look good on A4 paper.",
+      "navigation": "Implement keyboard navigation (Arrow keys) and scroll snapping for slides.",
+      "responsive": "Mobile: Stacked layout. Desktop: Horizontal/Grid layout."
+    }
+  },
+  "universal_guidelines": [
+    "Use 'Oswald' for all headings to maintain the industrial look.",
+    "Ensure high contrast (Orange on Black) for all CTAs.",
+    "Do not use rounded corners (rounded-none) for buttons and cards to keep the brutalist aesthetic.",
+    "Use diagonal lines (clip-path) to separate sections visually.",
+    "Add 'data-testid' to all interactive elements."
+  ]
+}
