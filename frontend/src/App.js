@@ -104,7 +104,7 @@ const AirportSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=1920&q=80')`,
+        backgroundImage: `url('https://images.pexels.com/photos/13315324/pexels-photo-13315324.jpeg?w=1920&q=80')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
