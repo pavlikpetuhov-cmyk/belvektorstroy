@@ -99,50 +99,107 @@ const AboutSlide = () => (
   </section>
 );
 
-const AirportSlide = () => (
-  <section data-testid="slide-airport" className="slide relative">
-    <div 
-      className="absolute inset-0 bg-cover bg-center"
-      style={{
-        backgroundImage: `url('/images/airport.jpg')`,
-      }}
-    />
-    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
-    
-    <div className="relative z-10 h-full min-h-screen flex items-center px-6 md:px-12 lg:px-20">
-      <div className="max-w-2xl">
-        <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Проект</p>
-        <h2 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold uppercase mb-6">
-          Аэропорт<br/>Благовещенск
-        </h2>
-        <p className="text-zinc-300 text-lg leading-relaxed mb-8">
-          Строительство нового терминала аэропорта. Выполнены работы по монтажу 
-          внутренних перегородок по системе КНАУФ, отделка помещений.
-        </p>
-        
-        <div className="grid grid-cols-2 gap-6 mb-8">
-          <div className="glass-panel p-6">
-            <p className="font-heading text-4xl md:text-5xl font-bold text-[#FF5F1F]">26 000</p>
-            <p className="text-zinc-400">м² перегородок ГКЛВ</p>
-          </div>
-          <div className="glass-panel p-6">
-            <p className="font-heading text-4xl md:text-5xl font-bold text-white">КНАУФ</p>
-            <p className="text-zinc-400">Сертифицированная система</p>
-          </div>
+const AirportSlide = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+  const airportImages = [
+    '/images/airport1.jpg',
+    '/images/airport2.jpg',
+    '/images/airport3.jpg',
+    '/images/airport4.jpg',
+    '/images/airport5.jpg',
+  ];
+
+  const nextImage = () => setCurrentImage((prev) => (prev + 1) % airportImages.length);
+  const prevImage = () => setCurrentImage((prev) => (prev - 1 + airportImages.length) % airportImages.length);
+
+  return (
+    <section data-testid="slide-airport" className="slide bg-[#0A0A0A] py-16 px-6 md:px-12 lg:px-20">
+      <div className="max-w-7xl mx-auto h-full min-h-screen flex flex-col justify-center">
+        {/* Header */}
+        <div className="mb-8">
+          <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Проект</p>
+          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold uppercase mb-4">
+            Аэропорт Благовещенск
+          </h2>
+          <p className="text-zinc-400 text-lg max-w-2xl">
+            Строительство нового терминала аэропорта. Выполнены работы по монтажу 
+            внутренних перегородок по системе КНАУФ, отделка помещений.
+          </p>
         </div>
-        
-        <div className="flex gap-4 flex-wrap">
-          <span className="px-4 py-2 bg-zinc-800 text-sm uppercase tracking-wider">Общестрой</span>
-          <span className="px-4 py-2 bg-zinc-800 text-sm uppercase tracking-wider">Перегородки</span>
-          <span className="px-4 py-2 bg-zinc-800 text-sm uppercase tracking-wider">Отделка</span>
+
+        {/* Main content grid */}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main image slider */}
+          <div className="lg:col-span-2 relative">
+            <div className="relative aspect-video overflow-hidden industrial-border">
+              <img 
+                src={airportImages[currentImage]} 
+                alt={`Аэропорт Благовещенск ${currentImage + 1}`}
+                className="w-full h-full object-cover transition-opacity duration-500"
+              />
+              {/* Navigation arrows */}
+              <button 
+                onClick={prevImage}
+                data-testid="airport-prev-btn"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#FF5F1F] p-3 transition-colors"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button 
+                onClick={nextImage}
+                data-testid="airport-next-btn"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#FF5F1F] p-3 transition-colors"
+              >
+                <ChevronRight size={24} />
+              </button>
+              {/* Image counter */}
+              <div className="absolute bottom-4 right-4 bg-black/60 px-4 py-2 text-sm">
+                {currentImage + 1} / {airportImages.length}
+              </div>
+            </div>
+
+            {/* Thumbnails */}
+            <div className="flex gap-2 mt-4">
+              {airportImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentImage(idx)}
+                  data-testid={`airport-thumb-${idx}`}
+                  className={`flex-1 aspect-video overflow-hidden border-2 transition-all ${
+                    currentImage === idx ? 'border-[#FF5F1F]' : 'border-zinc-800 opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img} alt={`Миниатюра ${idx + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Stats sidebar */}
+          <div className="flex flex-col gap-4">
+            <div className="bg-[#1C1C1C] p-6 industrial-border">
+              <p className="font-heading text-5xl font-bold text-[#FF5F1F]">26 000</p>
+              <p className="text-zinc-400 mt-2">м² перегородок ГКЛВ</p>
+            </div>
+            <div className="bg-[#1C1C1C] p-6 industrial-border">
+              <p className="font-heading text-3xl font-bold text-white">КНАУФ</p>
+              <p className="text-zinc-400 mt-2">Сертифицированная система</p>
+            </div>
+            <div className="bg-[#1C1C1C] p-6 industrial-border flex-1">
+              <p className="text-zinc-500 text-sm uppercase tracking-wider mb-3">Виды работ</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Общестрой</span>
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Перегородки</span>
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Отделка</span>
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Фасады</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    
-    {/* Diagonal accent */}
-    <div className="absolute bottom-0 left-0 w-full h-32 bg-[#0A0A0A]" style={{ clipPath: 'polygon(0 100%, 100% 100%, 100% 0)' }} />
-  </section>
-);
+    </section>
+  );
+};
 
 const WinerySlide = () => (
   <section data-testid="slide-winery" className="slide relative">
