@@ -1,0 +1,87 @@
+{
+  "timestamp": "2026-02-05T17:56:52.262237",
+  "total_tests": 5,
+  "passed_tests": 5,
+  "success_rate": "100.0%",
+  "results": [
+    {
+      "test_name": "Root API Endpoint",
+      "method": "GET",
+      "endpoint": "api/",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_data": {
+        "message": "Hello World"
+      },
+      "error": null
+    },
+    {
+      "test_name": "Get Status Checks",
+      "method": "GET",
+      "endpoint": "api/status",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_data": [],
+      "error": null
+    },
+    {
+      "test_name": "Create Status Check",
+      "method": "POST",
+      "endpoint": "api/status",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_data": {
+        "id": "c4e042f4-b102-4aa0-b88f-91981c5ae50f",
+        "client_name": "test_client_175652",
+        "timestamp": "2026-02-05T17:56:52.158185Z"
+      },
+      "error": null
+    },
+    {
+      "test_name": "Submit Contact Form",
+      "method": "POST",
+      "endpoint": "api/contact",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_data": {
+        "id": "b63af433-bce8-4ef2-af19-882c62a7b428",
+        "name": "Тест Пользователь 17:56:52",
+        "phone": "+7 925 759 09 03",
+        "timestamp": "2026-02-05T17:56:52.212558+00:00",
+        "email_sent": false
+      },
+      "error": null
+    },
+    {
+      "test_name": "Get All Contact Requests",
+      "method": "GET",
+      "endpoint": "api/contacts",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_data": [
+        {
+          "id": "3c650d28-e7a4-456f-ae85-34a596625aa6",
+          "name": "Тест Иванов",
+          "phone": "+7 925 123 45 67",
+          "timestamp": "2026-02-05T17:47:32.375170+00:00",
+          "email_sent": false,
+          "source": "plaster_page"
+        },
+        {
+          "id": "b63af433-bce8-4ef2-af19-882c62a7b428",
+          "name": "Тест Пользователь 17:56:52",
+          "phone": "+7 925 759 09 03",
+          "timestamp": "2026-02-05T17:56:52.212558+00:00",
+          "email_sent": false,
+          "source": "plaster_page"
+        }
+      ],
+      "error": null
+    }
+  ]
+}
