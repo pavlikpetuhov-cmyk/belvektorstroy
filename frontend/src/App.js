@@ -210,50 +210,116 @@ const AirportSlide = () => {
   );
 };
 
-const WinerySlide = () => (
-  <section data-testid="slide-winery" className="slide relative">
-    <div 
-      className="absolute inset-0 bg-cover bg-center"
-      style={{
-        backgroundImage: `url('/images/winery.jpg')`,
-      }}
-    />
-    <div className="absolute inset-0 bg-gradient-to-l from-black via-black/80 to-transparent" />
-    
-    <div className="relative z-10 h-full min-h-screen flex items-center justify-end px-6 md:px-12 lg:px-20">
-      <div className="max-w-2xl text-right">
-        <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Проект</p>
-        <h2 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold uppercase mb-6">
-          Винный парк<br/>Крым
-        </h2>
-        <p className="text-zinc-300 text-lg leading-relaxed mb-8">
-          Строительство уникального винодельческого комплекса в районе Понизовка-Оползневое. 
-          Архитектурный шедевр с интеграцией в ландшафт.
-        </p>
-        
-        <div className="flex justify-end gap-6 mb-8">
-          <div className="glass-panel p-6 text-left">
-            <p className="font-heading text-3xl font-bold text-[#FF5F1F]">Понизовка</p>
-            <p className="text-zinc-400">Оползневое, Крым</p>
-          </div>
-          <div className="glass-panel p-6 text-left">
-            <p className="font-heading text-3xl font-bold text-white">Премиум</p>
-            <p className="text-zinc-400">Класс объекта</p>
-          </div>
+const WinerySlide = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+  const wineryImages = [
+    '/images/winery1.jpg',
+    '/images/winery2.jpg',
+    '/images/winery3.jpg',
+    '/images/winery4.jpg',
+    '/images/winery5.jpg',
+  ];
+
+  const nextImage = () => setCurrentImage((prev) => (prev + 1) % wineryImages.length);
+  const prevImage = () => setCurrentImage((prev) => (prev - 1 + wineryImages.length) % wineryImages.length);
+
+  return (
+    <section data-testid="slide-winery" className="slide relative py-16 px-6 md:px-12 lg:px-20">
+      {/* Background image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('/images/winery.jpg')`,
+        }}
+      />
+      <div className="absolute inset-0 bg-black/85" />
+      
+      <div className="relative z-10 max-w-7xl mx-auto h-full min-h-screen flex flex-col justify-center">
+        {/* Header */}
+        <div className="mb-8">
+          <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Проект</p>
+          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold uppercase mb-4">
+            Винный парк Крым
+          </h2>
+          <p className="text-zinc-400 text-lg max-w-2xl">
+            Строительство уникального винодельческого комплекса в районе Понизовка-Оползневое. 
+            Архитектурный шедевр с интеграцией в ландшафт.
+          </p>
         </div>
-        
-        <div className="flex gap-4 flex-wrap justify-end">
-          <span className="px-4 py-2 bg-zinc-800 text-sm uppercase tracking-wider">Ландшафт</span>
-          <span className="px-4 py-2 bg-zinc-800 text-sm uppercase tracking-wider">Архитектура</span>
-          <span className="px-4 py-2 bg-zinc-800 text-sm uppercase tracking-wider">Бетон</span>
+
+        {/* Main content grid */}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main image slider */}
+          <div className="lg:col-span-2 relative">
+            <div className="relative aspect-video overflow-hidden industrial-border">
+              <img 
+                src={wineryImages[currentImage]} 
+                alt={`Винный парк Крым ${currentImage + 1}`}
+                className="w-full h-full object-cover transition-opacity duration-500"
+              />
+              {/* Navigation arrows */}
+              <button 
+                onClick={prevImage}
+                data-testid="winery-prev-btn"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#FF5F1F] p-3 transition-colors"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button 
+                onClick={nextImage}
+                data-testid="winery-next-btn"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#FF5F1F] p-3 transition-colors"
+              >
+                <ChevronRight size={24} />
+              </button>
+              {/* Image counter */}
+              <div className="absolute bottom-4 right-4 bg-black/60 px-4 py-2 text-sm">
+                {currentImage + 1} / {wineryImages.length}
+              </div>
+            </div>
+
+            {/* Thumbnails */}
+            <div className="flex gap-2 mt-4">
+              {wineryImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentImage(idx)}
+                  data-testid={`winery-thumb-${idx}`}
+                  className={`flex-1 aspect-video overflow-hidden border-2 transition-all ${
+                    currentImage === idx ? 'border-[#FF5F1F]' : 'border-zinc-800 opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img} alt={`Миниатюра ${idx + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Stats sidebar */}
+          <div className="flex flex-col gap-4">
+            <div className="bg-[#1C1C1C] p-6 industrial-border">
+              <p className="font-heading text-3xl font-bold text-[#FF5F1F]">Понизовка</p>
+              <p className="text-zinc-400 mt-2">Оползневое, Крым</p>
+            </div>
+            <div className="bg-[#1C1C1C] p-6 industrial-border">
+              <p className="font-heading text-3xl font-bold text-white">Премиум</p>
+              <p className="text-zinc-400 mt-2">Класс объекта</p>
+            </div>
+            <div className="bg-[#1C1C1C] p-6 industrial-border flex-1">
+              <p className="text-zinc-500 text-sm uppercase tracking-wider mb-3">Виды работ</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Ландшафт</span>
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Архитектура</span>
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Бетон</span>
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Отделка</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    
-    {/* Diagonal accent */}
-    <div className="absolute bottom-0 right-0 w-full h-32 bg-[#0A0A0A]" style={{ clipPath: 'polygon(0 0, 100% 100%, 0 100%)' }} />
-  </section>
-);
+    </section>
+  );
+};
 
 const PanelsSlide = () => (
   <section data-testid="slide-panels" className="slide bg-[#0A0A0A] py-20 px-6 md:px-12 lg:px-20">
