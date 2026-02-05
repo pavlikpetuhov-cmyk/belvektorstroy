@@ -81,6 +81,104 @@ async def get_status_checks():
     
     return status_checks
 
+
+# Email sending function
+def send_email_notification(name: str, phone: str):
+    """Send email notification about new contact form submission"""
+    try:
+        # Email settings
+        smtp_server = os.environ.get('SMTP_SERVER', 'smtp.mail.ru')
+        smtp_port = int(os.environ.get('SMTP_PORT', 465))
+        smtp_email = os.environ.get('SMTP_EMAIL', '')
+        smtp_password = os.environ.get('SMTP_PASSWORD', '')
+        recipient_email = 'stroyblagoaero@mail.ru'
+        
+        if not smtp_email or not smtp_password:
+            logger.warning("SMTP credentials not configured, skipping email")
+            return False
+        
+        # Create message
+        msg = MIMEMultipart()
+        msg['From'] = smtp_email
+        msg['To'] = recipient_email
+        msg['Subject'] = f'Новая заявка на расчёт штукатурных работ от {name}'
+        
+        body = f"""
+Новая заявка с сайта БелВекторСтрой
+
+Имя: {name}
+Телефон: {phone}
+
+Дата: {datetime.now().strftime('%d.%m.%Y %H:%M')}
+
+---
+Штукатурные работы в Москве и МО
+        """
+        
+        msg.attach(MIMEText(body, 'plain', 'utf-8'))
+        
+        # Send email
+        with smtplib.SMTP_SSL(smtp_server, smtp_port) as server:
+            server.login(smtp_email, smtp_password)
+            server.send_message(msg)
+        
+        logger.info(f"Email sent successfully for contact: {name}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Failed to send email: {e}")
+        return False
+
+
+# Contact form endpoint
+@api_router.post("/contact", response_model=ContactFormResponse)
+async def submit_contact_form(form: ContactForm, background_tasks: BackgroundTasks):
+    """Submit contact form and send email notification"""
+    
+    # Create document
+    doc = {
+        "id": str(uuid.uuid4()),
+        "name": form.name,
+        "phone": form.phone,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "email_sent": False,
+        "source": "plaster_page"
+    }
+    
+    # Save to database
+    await db.contact_requests.insert_one(doc)
+    logger.info(f"New contact request saved: {form.name}, {form.phone}")
+    
+    # Try to send email in background
+    background_tasks.add_task(send_email_and_update, doc["id"], form.name, form.phone)
+    
+    return ContactFormResponse(
+        id=doc["id"],
+        name=doc["name"],
+        phone=doc["phone"],
+        timestamp=doc["timestamp"],
+        email_sent=False  # Will be updated in background
+    )
+
+
+async def send_email_and_update(request_id: str, name: str, phone: str):
+    """Send email and update database record"""
+    email_sent = send_email_notification(name, phone)
+    
+    # Update database with email status
+    await db.contact_requests.update_one(
+        {"id": request_id},
+        {"$set": {"email_sent": email_sent}}
+    )
+
+
+# Get all contact requests (admin endpoint)
+@api_router.get("/contacts")
+async def get_contact_requests():
+    """Get all contact form submissions"""
+    contacts = await db.contact_requests.find({}, {"_id": 0}).to_list(1000)
+    return contacts
+
 # Include the router in the main app
 app.include_router(api_router)
 
