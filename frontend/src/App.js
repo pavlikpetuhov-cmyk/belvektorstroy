@@ -1,12 +1,103 @@
 import { useState, useEffect, useRef } from "react";
+import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import "@/App.css";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { ChevronDown, ChevronLeft, ChevronRight, Download, Phone, Mail, MapPin, Building2, Wrench, Award, ArrowUp } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, Download, Phone, Mail, MapPin, Building2, Wrench, Award, ArrowUp, Menu, X } from 'lucide-react';
 
-// Slide components
-const TitleSlide = () => (
-  <section data-testid="slide-title" className="slide relative flex items-center justify-center">
+// Header component
+const Header = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-md border-b border-zinc-800">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo */}
+          <Link to="/" className="font-heading text-xl md:text-2xl font-bold text-white hover:text-[#FF5F1F] transition-colors" data-testid="logo-link">
+            БелВекторСтрой
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            <Link 
+              to="/" 
+              data-testid="nav-home"
+              className={`text-sm uppercase tracking-wider transition-colors ${location.pathname === '/' ? 'text-[#FF5F1F]' : 'text-zinc-400 hover:text-white'}`}
+            >
+              Главная
+            </Link>
+            <Link 
+              to="/plaster" 
+              data-testid="nav-plaster"
+              className={`text-sm uppercase tracking-wider transition-colors ${location.pathname === '/plaster' ? 'text-[#FF5F1F]' : 'text-zinc-400 hover:text-white'}`}
+            >
+              Штукатурка
+            </Link>
+          </nav>
+
+          {/* Contact info */}
+          <div className="hidden lg:flex items-center gap-6">
+            <a href="tel:+79031677900" className="flex items-center gap-2 text-zinc-400 hover:text-[#FF5F1F] transition-colors" data-testid="header-phone">
+              <Phone size={16} />
+              <span className="text-sm">8-903-167-79-00</span>
+            </a>
+            <a href="mailto:stroyblagoaero@mail.ru" className="flex items-center gap-2 text-zinc-400 hover:text-[#FF5F1F] transition-colors" data-testid="header-email">
+              <Mail size={16} />
+              <span className="text-sm">stroyblagoaero@mail.ru</span>
+            </a>
+          </div>
+
+          {/* Mobile menu button */}
+          <button 
+            className="md:hidden text-white p-2"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            data-testid="mobile-menu-btn"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-4 border-t border-zinc-800">
+            <nav className="flex flex-col gap-4">
+              <Link 
+                to="/" 
+                onClick={() => setMobileMenuOpen(false)}
+                className={`text-sm uppercase tracking-wider ${location.pathname === '/' ? 'text-[#FF5F1F]' : 'text-zinc-400'}`}
+              >
+                Главная
+              </Link>
+              <Link 
+                to="/plaster" 
+                onClick={() => setMobileMenuOpen(false)}
+                className={`text-sm uppercase tracking-wider ${location.pathname === '/plaster' ? 'text-[#FF5F1F]' : 'text-zinc-400'}`}
+              >
+                Штукатурка
+              </Link>
+              <div className="pt-4 border-t border-zinc-800 flex flex-col gap-3">
+                <a href="tel:+79031677900" className="flex items-center gap-2 text-zinc-400">
+                  <Phone size={16} />
+                  <span className="text-sm">8-903-167-79-00</span>
+                </a>
+                <a href="mailto:stroyblagoaero@mail.ru" className="flex items-center gap-2 text-zinc-400">
+                  <Mail size={16} />
+                  <span className="text-sm">stroyblagoaero@mail.ru</span>
+                </a>
+              </div>
+            </nav>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+};
+
+// Hero Section
+const HeroSection = () => (
+  <section data-testid="section-hero" className="relative min-h-screen flex items-center justify-center pt-20">
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
@@ -15,7 +106,6 @@ const TitleSlide = () => (
     />
     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
     
-    {/* Diagonal accent */}
     <div className="absolute top-0 right-0 w-1/3 h-full bg-[#FF5F1F]/20" style={{ clipPath: 'polygon(100% 0, 0% 100%, 100% 100%)' }} />
     
     <div className="relative z-10 text-center px-6 max-w-5xl">
@@ -50,9 +140,10 @@ const TitleSlide = () => (
   </section>
 );
 
-const AboutSlide = () => (
-  <section data-testid="slide-about" className="slide bg-[#0A0A0A] flex items-center py-20 px-6 md:px-12 lg:px-20">
-    <div className="max-w-7xl mx-auto w-full">
+// About Section
+const AboutSection = () => (
+  <section data-testid="section-about" className="bg-[#0A0A0A] py-20 px-6 md:px-12 lg:px-20">
+    <div className="max-w-7xl mx-auto">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div>
           <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">О компании</p>
@@ -99,7 +190,8 @@ const AboutSlide = () => (
   </section>
 );
 
-const AirportSlide = () => {
+// Airport Section with Gallery
+const AirportSection = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const airportImages = [
     '/images/airport1.jpg',
@@ -113,18 +205,14 @@ const AirportSlide = () => {
   const prevImage = () => setCurrentImage((prev) => (prev - 1 + airportImages.length) % airportImages.length);
 
   return (
-    <section data-testid="slide-airport" className="slide relative py-16 px-6 md:px-12 lg:px-20">
-      {/* Background image */}
+    <section data-testid="section-airport" className="relative py-20 px-6 md:px-12 lg:px-20">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('/images/airport.jpg')`,
-        }}
+        style={{ backgroundImage: `url('/images/airport.jpg')` }}
       />
       <div className="absolute inset-0 bg-black/85" />
       
-      <div className="relative z-10 max-w-7xl mx-auto h-full min-h-screen flex flex-col justify-center">
-        {/* Header */}
+      <div className="relative z-10 max-w-7xl mx-auto">
         <div className="mb-8">
           <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Проект</p>
           <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold uppercase mb-4">
@@ -136,9 +224,7 @@ const AirportSlide = () => {
           </p>
         </div>
 
-        {/* Main content grid */}
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main image slider */}
           <div className="lg:col-span-2 relative">
             <div className="relative aspect-video overflow-hidden industrial-border">
               <img 
@@ -146,7 +232,6 @@ const AirportSlide = () => {
                 alt={`Аэропорт Благовещенск ${currentImage + 1}`}
                 className="w-full h-full object-cover transition-opacity duration-500"
               />
-              {/* Navigation arrows */}
               <button 
                 onClick={prevImage}
                 data-testid="airport-prev-btn"
@@ -161,13 +246,11 @@ const AirportSlide = () => {
               >
                 <ChevronRight size={24} />
               </button>
-              {/* Image counter */}
               <div className="absolute bottom-4 right-4 bg-black/60 px-4 py-2 text-sm">
                 {currentImage + 1} / {airportImages.length}
               </div>
             </div>
 
-            {/* Thumbnails */}
             <div className="flex gap-2 mt-4">
               {airportImages.map((img, idx) => (
                 <button
@@ -184,7 +267,6 @@ const AirportSlide = () => {
             </div>
           </div>
 
-          {/* Stats sidebar */}
           <div className="flex flex-col gap-4">
             <div className="bg-[#1C1C1C] p-6 industrial-border">
               <p className="font-heading text-5xl font-bold text-[#FF5F1F]">26 000</p>
@@ -210,7 +292,8 @@ const AirportSlide = () => {
   );
 };
 
-const WinerySlide = () => {
+// Winery Crimea Section with Gallery
+const WineryCrimeaSection = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const wineryImages = [
     '/images/winery1.jpg',
@@ -224,18 +307,14 @@ const WinerySlide = () => {
   const prevImage = () => setCurrentImage((prev) => (prev - 1 + wineryImages.length) % wineryImages.length);
 
   return (
-    <section data-testid="slide-winery" className="slide relative py-16 px-6 md:px-12 lg:px-20">
-      {/* Background image */}
+    <section data-testid="section-winery-crimea" className="relative py-20 px-6 md:px-12 lg:px-20">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('/images/winery.jpg')`,
-        }}
+        style={{ backgroundImage: `url('/images/winery.jpg')` }}
       />
       <div className="absolute inset-0 bg-black/85" />
       
-      <div className="relative z-10 max-w-7xl mx-auto h-full min-h-screen flex flex-col justify-center">
-        {/* Header */}
+      <div className="relative z-10 max-w-7xl mx-auto">
         <div className="mb-8">
           <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Проект</p>
           <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold uppercase mb-4">
@@ -247,9 +326,7 @@ const WinerySlide = () => {
           </p>
         </div>
 
-        {/* Main content grid */}
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main image slider */}
           <div className="lg:col-span-2 relative">
             <div className="relative aspect-video overflow-hidden industrial-border">
               <img 
@@ -257,7 +334,6 @@ const WinerySlide = () => {
                 alt={`Винный парк Крым ${currentImage + 1}`}
                 className="w-full h-full object-cover transition-opacity duration-500"
               />
-              {/* Navigation arrows */}
               <button 
                 onClick={prevImage}
                 data-testid="winery-prev-btn"
@@ -272,13 +348,11 @@ const WinerySlide = () => {
               >
                 <ChevronRight size={24} />
               </button>
-              {/* Image counter */}
               <div className="absolute bottom-4 right-4 bg-black/60 px-4 py-2 text-sm">
                 {currentImage + 1} / {wineryImages.length}
               </div>
             </div>
 
-            {/* Thumbnails */}
             <div className="flex gap-2 mt-4">
               {wineryImages.map((img, idx) => (
                 <button
@@ -295,7 +369,6 @@ const WinerySlide = () => {
             </div>
           </div>
 
-          {/* Stats sidebar */}
           <div className="flex flex-col gap-4">
             <div className="bg-[#1C1C1C] p-6 industrial-border">
               <p className="font-heading text-3xl font-bold text-[#FF5F1F]">Понизовка</p>
@@ -321,9 +394,10 @@ const WinerySlide = () => {
   );
 };
 
-const PanelsSlide = () => (
-  <section data-testid="slide-panels" className="slide bg-[#0A0A0A] py-20 px-6 md:px-12 lg:px-20">
-    <div className="max-w-7xl mx-auto h-full min-h-screen flex flex-col justify-center">
+// Panels Section
+const PanelsSection = () => (
+  <section data-testid="section-panels" className="bg-[#0A0A0A] py-20 px-6 md:px-12 lg:px-20">
+    <div className="max-w-7xl mx-auto">
       <div className="text-center mb-12">
         <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Проект</p>
         <h2 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold uppercase mb-6">
@@ -338,9 +412,7 @@ const PanelsSlide = () => (
         <div className="bg-[#1C1C1C] industrial-border overflow-hidden group">
           <div 
             className="h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-            style={{
-              backgroundImage: `url('/images/panels1.jpg')`,
-            }}
+            style={{ backgroundImage: `url('/images/panels1.jpg')` }}
           />
           <div className="p-6">
             <p className="font-heading text-2xl font-bold uppercase mb-2">Латунные панели</p>
@@ -351,9 +423,7 @@ const PanelsSlide = () => (
         <div className="bg-[#1C1C1C] industrial-border overflow-hidden group">
           <div 
             className="h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-            style={{
-              backgroundImage: `url('/images/panels2.jpg')`,
-            }}
+            style={{ backgroundImage: `url('/images/panels2.jpg')` }}
           />
           <div className="p-6">
             <p className="font-heading text-2xl font-bold uppercase mb-2">Газпром Банк</p>
@@ -374,17 +444,16 @@ const PanelsSlide = () => (
   </section>
 );
 
-const GelendzhikSlide = () => (
-  <section data-testid="slide-gelendzhik" className="slide relative">
+// Gelendzhik Section
+const GelendzhikSection = () => (
+  <section data-testid="section-gelendzhik" className="relative py-20 px-6 md:px-12 lg:px-20">
     <div 
       className="absolute inset-0 bg-cover bg-center"
-      style={{
-        backgroundImage: `url('/images/gelendzhik_bg.jpg')`,
-      }}
+      style={{ backgroundImage: `url('/images/gelendzhik_bg.jpg')` }}
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
     
-    <div className="relative z-10 h-full min-h-screen flex items-end pb-24 px-6 md:px-12 lg:px-20">
+    <div className="relative z-10 max-w-7xl mx-auto min-h-[60vh] flex items-end pb-12">
       <div className="max-w-4xl">
         <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Проект</p>
         <h2 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold uppercase mb-6">
@@ -414,8 +483,9 @@ const GelendzhikSlide = () => (
   </section>
 );
 
-const ContactSlide = ({ onExport, isExporting }) => (
-  <section data-testid="slide-contacts" className="slide bg-[#0A0A0A] flex items-center justify-center py-20 px-6">
+// Contact Section
+const ContactSection = ({ onExport, isExporting }) => (
+  <section data-testid="section-contacts" className="bg-[#0A0A0A] py-20 px-6">
     <div className="max-w-4xl mx-auto text-center">
       <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Связаться с нами</p>
       <h2 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold uppercase mb-8">
@@ -426,12 +496,16 @@ const ContactSlide = ({ onExport, isExporting }) => (
         <div className="bg-[#1C1C1C] p-8 industrial-border">
           <Phone size={32} className="text-[#FF5F1F] mx-auto mb-4" />
           <p className="text-zinc-400 text-sm mb-2">Телефон</p>
-          <p className="font-heading text-xl font-bold">8-903-167-79-00</p>
+          <a href="tel:+79031677900" className="font-heading text-xl font-bold hover:text-[#FF5F1F] transition-colors">
+            8-903-167-79-00
+          </a>
         </div>
         <div className="bg-[#1C1C1C] p-8 industrial-border">
           <Mail size={32} className="text-[#FF5F1F] mx-auto mb-4" />
           <p className="text-zinc-400 text-sm mb-2">Email</p>
-          <p className="font-heading text-xl font-bold">stroyblagoaero@mail.ru</p>
+          <a href="mailto:stroyblagoaero@mail.ru" className="font-heading text-lg font-bold hover:text-[#FF5F1F] transition-colors">
+            stroyblagoaero@mail.ru
+          </a>
         </div>
         <div className="bg-[#1C1C1C] p-8 industrial-border">
           <MapPin size={32} className="text-[#FF5F1F] mx-auto mb-4" />
@@ -449,168 +523,204 @@ const ContactSlide = ({ onExport, isExporting }) => (
         <Download size={24} />
         {isExporting ? 'Создание PDF...' : 'Скачать PDF'}
       </button>
-      
-      <p className="text-zinc-600 text-sm mt-8">
-        © 2024 БелВекторСтрой. Все права защищены.
-      </p>
     </div>
   </section>
 );
 
-// Navigation dots
-const NavigationDots = ({ currentSlide, totalSlides, onNavigate }) => (
-  <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 no-print">
-    {Array.from({ length: totalSlides }).map((_, i) => (
-      <button
-        key={i}
-        data-testid={`nav-dot-${i}`}
-        onClick={() => onNavigate(i)}
-        className={`w-3 h-3 rounded-full transition-all duration-300 ${
-          currentSlide === i 
-            ? 'bg-[#FF5F1F] scale-125' 
-            : 'bg-zinc-600 hover:bg-zinc-400'
-        }`}
-        aria-label={`Перейти к слайду ${i + 1}`}
-      />
-    ))}
-  </div>
+// Footer
+const Footer = () => (
+  <footer className="bg-[#0A0A0A] border-t border-zinc-800 py-8 px-6">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <p className="text-zinc-600 text-sm">
+        © 2024 БелВекторСтрой. Все права защищены.
+      </p>
+      <div className="flex gap-6">
+        <Link to="/" className="text-zinc-500 hover:text-[#FF5F1F] text-sm transition-colors">Главная</Link>
+        <Link to="/plaster" className="text-zinc-500 hover:text-[#FF5F1F] text-sm transition-colors">Штукатурка</Link>
+      </div>
+    </div>
+  </footer>
 );
 
-// Scroll to top button
-const ScrollToTop = ({ visible, onClick }) => (
-  <button
-    data-testid="scroll-to-top-btn"
-    onClick={onClick}
-    className={`fixed bottom-8 left-8 z-50 bg-[#1C1C1C] border border-zinc-700 text-white p-3 transition-all duration-300 no-print hover:border-[#FF5F1F] ${
-      visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
-    }`}
-  >
-    <ArrowUp size={24} />
-  </button>
-);
-
-function App() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+// Home Page
+const HomePage = () => {
   const [isExporting, setIsExporting] = useState(false);
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  const containerRef = useRef(null);
-  const totalSlides = 7;
-  
-  // Track scroll position
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const slideIndex = Math.round(scrollY / windowHeight);
-      setCurrentSlide(Math.min(slideIndex, totalSlides - 1));
-      setShowScrollTop(scrollY > windowHeight);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-  
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-        e.preventDefault();
-        navigateToSlide(Math.min(currentSlide + 1, totalSlides - 1));
-      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-        e.preventDefault();
-        navigateToSlide(Math.max(currentSlide - 1, 0));
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentSlide]);
-  
-  const navigateToSlide = (index) => {
-    const slideElement = document.querySelectorAll('.slide')[index];
-    if (slideElement) {
-      slideElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-  
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  
+
   const exportToPDF = async () => {
     setIsExporting(true);
-    
     try {
-      const pdf = new jsPDF('l', 'mm', 'a4'); // Landscape A4
-      const slides = document.querySelectorAll('.slide');
+      const pdf = new jsPDF('l', 'mm', 'a4');
+      const sections = document.querySelectorAll('section[data-testid]');
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      for (let i = 0; i < slides.length; i++) {
-        const slide = slides[i];
-        
-        // Scroll slide into view
-        slide.scrollIntoView();
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        section.scrollIntoView();
         await new Promise(resolve => setTimeout(resolve, 500));
         
-        const canvas = await html2canvas(slide, {
+        const canvas = await html2canvas(section, {
           scale: 2,
           useCORS: true,
           logging: false,
           backgroundColor: '#0A0A0A',
-          windowWidth: 1920,
-          windowHeight: 1080,
         });
         
         const imgData = canvas.toDataURL('image/jpeg', 0.95);
-        
-        if (i > 0) {
-          pdf.addPage();
-        }
-        
+        if (i > 0) pdf.addPage();
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
       }
       
       pdf.save('БелВекторСтрой_Презентация.pdf');
     } catch (error) {
       console.error('Error exporting PDF:', error);
-      alert('Ошибка при создании PDF. Попробуйте снова.');
     } finally {
       setIsExporting(false);
-      // Return to first slide
       window.scrollTo({ top: 0 });
     }
   };
 
   return (
-    <div className="App" ref={containerRef} data-testid="presentation-container">
-      <NavigationDots 
-        currentSlide={currentSlide} 
-        totalSlides={totalSlides}
-        onNavigate={navigateToSlide}
+    <main>
+      <HeroSection />
+      <AboutSection />
+      <AirportSection />
+      <WineryCrimeaSection />
+      <PanelsSection />
+      <GelendzhikSection />
+      <ContactSection onExport={exportToPDF} isExporting={isExporting} />
+      <Footer />
+    </main>
+  );
+};
+
+// Plaster Page (Штукатурка)
+const PlasterPage = () => (
+  <main className="pt-20">
+    {/* Hero */}
+    <section className="relative py-32 px-6 md:px-12 lg:px-20">
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url('/images/hero.jpg')` }}
       />
+      <div className="absolute inset-0 bg-black/80" />
       
-      <ScrollToTop visible={showScrollTop} onClick={scrollToTop} />
-      
-      <TitleSlide />
-      <AboutSlide />
-      <AirportSlide />
-      <WinerySlide />
-      <PanelsSlide />
-      <GelendzhikSlide />
-      <ContactSlide onExport={exportToPDF} isExporting={isExporting} />
-      
-      {/* Export button fixed */}
-      <button
-        data-testid="floating-export-btn"
-        onClick={exportToPDF}
-        disabled={isExporting}
-        className="fixed bottom-8 right-8 z-50 bg-[#FF5F1F] text-white p-4 shadow-2xl hover:scale-105 transition-transform rounded-full no-print disabled:opacity-50"
-        title="Скачать PDF"
-      >
-        <Download size={24} />
-      </button>
-    </div>
+      <div className="relative z-10 max-w-7xl mx-auto text-center">
+        <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Услуги</p>
+        <h1 className="font-heading text-5xl md:text-7xl font-bold uppercase mb-6">
+          Штукатурные работы
+        </h1>
+        <p className="text-zinc-400 text-xl max-w-3xl mx-auto">
+          Профессиональное выполнение штукатурных работ любой сложности. 
+          Работаем с коммерческими и жилыми объектами.
+        </p>
+      </div>
+    </section>
+
+    {/* Services */}
+    <section className="bg-[#0A0A0A] py-20 px-6 md:px-12 lg:px-20">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-12 text-center">
+          Наши услуги
+        </h2>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            { title: 'Машинная штукатурка', desc: 'Быстрое и качественное нанесение штукатурки с помощью современного оборудования', icon: '🏗️' },
+            { title: 'Ручная штукатурка', desc: 'Традиционный метод для сложных участков и декоративных элементов', icon: '🔨' },
+            { title: 'Гипсовая штукатурка', desc: 'Идеально ровные стены под покраску или обои', icon: '📐' },
+            { title: 'Цементная штукатурка', desc: 'Для фасадов и помещений с повышенной влажностью', icon: '🧱' },
+            { title: 'Декоративная штукатурка', desc: 'Создание уникальных текстур и фактур на стенах', icon: '🎨' },
+            { title: 'Фасадная штукатурка', desc: 'Защита и отделка наружных стен здания', icon: '🏢' },
+          ].map((service, i) => (
+            <div key={i} className="bg-[#1C1C1C] p-8 industrial-border hover:border-[#FF5F1F] transition-colors">
+              <div className="text-4xl mb-4">{service.icon}</div>
+              <h3 className="font-heading text-xl font-bold uppercase mb-3">{service.title}</h3>
+              <p className="text-zinc-400">{service.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Advantages */}
+    <section className="bg-[#1C1C1C] py-20 px-6 md:px-12 lg:px-20">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-12 text-center">
+          Почему мы
+        </h2>
+        
+        <div className="grid md:grid-cols-4 gap-8">
+          {[
+            { value: '10+', label: 'лет опыта' },
+            { value: '500+', label: 'выполненных объектов' },
+            { value: '100%', label: 'гарантия качества' },
+            { value: '24/7', label: 'поддержка клиентов' },
+          ].map((stat, i) => (
+            <div key={i} className="text-center">
+              <p className="font-heading text-5xl md:text-6xl font-bold text-[#FF5F1F]">{stat.value}</p>
+              <p className="text-zinc-400 mt-2 uppercase tracking-wider text-sm">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* CTA */}
+    <section className="bg-[#0A0A0A] py-20 px-6">
+      <div className="max-w-4xl mx-auto text-center">
+        <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-6">
+          Закажите расчёт стоимости
+        </h2>
+        <p className="text-zinc-400 text-lg mb-8">
+          Свяжитесь с нами для бесплатной консультации и расчёта стоимости работ
+        </p>
+        
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <a 
+            href="tel:+79031677900" 
+            className="bg-[#FF5F1F] text-white hover:bg-[#E04F16] px-8 py-4 font-bold uppercase tracking-wider transition-all inline-flex items-center justify-center gap-3"
+          >
+            <Phone size={20} />
+            Позвонить
+          </a>
+          <a 
+            href="mailto:stroyblagoaero@mail.ru" 
+            className="border-2 border-white/20 text-white hover:border-[#FF5F1F] hover:text-[#FF5F1F] px-8 py-4 font-bold uppercase tracking-wider transition-all inline-flex items-center justify-center gap-3"
+          >
+            <Mail size={20} />
+            Написать
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </main>
+);
+
+// Scroll to top on route change
+const ScrollToTopOnNav = () => {
+  const { pathname } = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  
+  return null;
+};
+
+// Main App
+function App() {
+  return (
+    <BrowserRouter>
+      <ScrollToTopOnNav />
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/plaster" element={<PlasterPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
