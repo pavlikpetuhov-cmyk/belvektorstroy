@@ -379,7 +379,7 @@ const GelendzhikSlide = () => (
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url('/images/gelendzhik.jpg')`,
+        backgroundImage: `url('/images/gelendzhik_bg.jpg')`,
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
