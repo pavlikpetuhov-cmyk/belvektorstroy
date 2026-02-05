@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "@/App.css";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { ChevronDown, Download, Phone, Mail, MapPin, Building2, Wrench, Award, ArrowUp } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, Download, Phone, Mail, MapPin, Building2, Wrench, Award, ArrowUp } from 'lucide-react';
 
 // Slide components
 const TitleSlide = () => (
