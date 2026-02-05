@@ -595,109 +595,223 @@ const HomePage = () => {
 };
 
 // Plaster Page (Штукатурка)
-const PlasterPage = () => (
-  <main className="pt-20">
-    {/* Hero */}
-    <section className="relative py-32 px-6 md:px-12 lg:px-20">
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('/images/hero.jpg')` }}
-      />
-      <div className="absolute inset-0 bg-black/80" />
-      
-      <div className="relative z-10 max-w-7xl mx-auto text-center">
-        <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Услуги</p>
-        <h1 className="font-heading text-5xl md:text-7xl font-bold uppercase mb-6">
-          Штукатурные работы
-        </h1>
-        <p className="text-zinc-400 text-xl max-w-3xl mx-auto">
-          Профессиональное выполнение штукатурных работ любой сложности. 
-          Работаем с коммерческими и жилыми объектами.
-        </p>
-      </div>
-    </section>
+const PlasterPage = () => {
+  const [formData, setFormData] = useState({ name: '', phone: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
-    {/* Services */}
-    <section className="bg-[#0A0A0A] py-20 px-6 md:px-12 lg:px-20">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-12 text-center">
-          Наши услуги
-        </h2>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', phone: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const workSteps = [
+    { num: '01', title: 'Заявка', desc: 'По телефону или через форму обратной связи' },
+    { num: '02', title: 'Замер', desc: 'Бесплатный выезд специалиста на объект' },
+    { num: '03', title: 'Договор', desc: 'Заключение договора с фиксированной ценой' },
+    { num: '04', title: 'Поставка материалов', desc: 'Оплата материалов по факту поставки' },
+    { num: '05', title: 'Заезд бригады', desc: 'Прибытие специалистов на объект' },
+    { num: '06', title: 'Штукатурные работы', desc: 'Выполнение работ согласно договору' },
+    { num: '07', title: 'Приёмка работы', desc: 'Проверка качества выполненных работ' },
+    { num: '08', title: 'Подписание акта', desc: 'Оформление акта выполненных работ' },
+    { num: '09', title: 'Оплата работ', desc: 'Оплата после подписания акта' },
+  ];
+
+  return (
+    <main className="pt-20">
+      {/* Hero */}
+      <section className="relative py-32 px-6 md:px-12 lg:px-20">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('/images/hero.jpg')` }}
+        />
+        <div className="absolute inset-0 bg-black/80" />
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            { title: 'Машинная штукатурка', desc: 'Быстрое и качественное нанесение штукатурки с помощью современного оборудования', icon: '🏗️' },
-            { title: 'Ручная штукатурка', desc: 'Традиционный метод для сложных участков и декоративных элементов', icon: '🔨' },
-            { title: 'Гипсовая штукатурка', desc: 'Идеально ровные стены под покраску или обои', icon: '📐' },
-            { title: 'Цементная штукатурка', desc: 'Для фасадов и помещений с повышенной влажностью', icon: '🧱' },
-            { title: 'Декоративная штукатурка', desc: 'Создание уникальных текстур и фактур на стенах', icon: '🎨' },
-            { title: 'Фасадная штукатурка', desc: 'Защита и отделка наружных стен здания', icon: '🏢' },
-          ].map((service, i) => (
-            <div key={i} className="bg-[#1C1C1C] p-8 industrial-border hover:border-[#FF5F1F] transition-colors">
-              <div className="text-4xl mb-4">{service.icon}</div>
-              <h3 className="font-heading text-xl font-bold uppercase mb-3">{service.title}</h3>
-              <p className="text-zinc-400">{service.desc}</p>
+        <div className="relative z-10 max-w-7xl mx-auto text-center">
+          <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Услуги</p>
+          <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold uppercase mb-6">
+            Штукатурные работы<br/>
+            <span className="text-[#FF5F1F]">в Москве и МО</span>
+          </h1>
+          <p className="text-zinc-400 text-xl max-w-3xl mx-auto mb-8">
+            Профессиональное выполнение штукатурных работ любой сложности. 
+            Работаем с коммерческими и жилыми объектами.
+          </p>
+          
+          {/* Price & Phone */}
+          <div className="flex flex-wrap justify-center gap-6">
+            <div className="bg-[#FF5F1F] px-8 py-4">
+              <p className="text-white text-sm uppercase tracking-wider">Стоимость работ</p>
+              <p className="font-heading text-3xl font-bold text-white">от 450 ₽/м²</p>
             </div>
-          ))}
+            <a href="tel:+79257590903" className="bg-[#1C1C1C] border-2 border-[#FF5F1F] px-8 py-4 hover:bg-[#FF5F1F] transition-colors group">
+              <p className="text-zinc-400 text-sm uppercase tracking-wider group-hover:text-white">Телефон</p>
+              <p className="font-heading text-2xl font-bold text-white">8 925 759 09 03</p>
+            </a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* Advantages */}
-    <section className="bg-[#1C1C1C] py-20 px-6 md:px-12 lg:px-20">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-12 text-center">
-          Почему мы
-        </h2>
-        
-        <div className="grid md:grid-cols-4 gap-8">
-          {[
-            { value: '10+', label: 'лет опыта' },
-            { value: '500+', label: 'выполненных объектов' },
-            { value: '100%', label: 'гарантия качества' },
-            { value: '24/7', label: 'поддержка клиентов' },
-          ].map((stat, i) => (
-            <div key={i} className="text-center">
-              <p className="font-heading text-5xl md:text-6xl font-bold text-[#FF5F1F]">{stat.value}</p>
-              <p className="text-zinc-400 mt-2 uppercase tracking-wider text-sm">{stat.label}</p>
+      {/* Services */}
+      <section className="bg-[#0A0A0A] py-20 px-6 md:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-12 text-center">
+            Наши услуги
+          </h2>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { title: 'Машинная штукатурка', desc: 'Быстрое и качественное нанесение штукатурки с помощью современного оборудования', icon: '🏗️' },
+              { title: 'Ручная штукатурка', desc: 'Традиционный метод для сложных участков и декоративных элементов', icon: '🔨' },
+              { title: 'Гипсовая штукатурка', desc: 'Идеально ровные стены под покраску или обои', icon: '📐' },
+              { title: 'Цементная штукатурка', desc: 'Для фасадов и помещений с повышенной влажностью', icon: '🧱' },
+              { title: 'Декоративная штукатурка', desc: 'Создание уникальных текстур и фактур на стенах', icon: '🎨' },
+              { title: 'Фасадная штукатурка', desc: 'Защита и отделка наружных стен здания', icon: '🏢' },
+            ].map((service, i) => (
+              <div key={i} className="bg-[#1C1C1C] p-8 industrial-border hover:border-[#FF5F1F] transition-colors">
+                <div className="text-4xl mb-4">{service.icon}</div>
+                <h3 className="font-heading text-xl font-bold uppercase mb-3">{service.title}</h3>
+                <p className="text-zinc-400">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How We Work */}
+      <section className="bg-[#1C1C1C] py-20 px-6 md:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-4 text-center">
+            Как мы работаем
+          </h2>
+          <p className="text-zinc-400 text-center mb-12 text-lg">Алгоритм сотрудничества</p>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            {workSteps.map((step, i) => (
+              <div key={i} className="relative bg-[#0A0A0A] p-6 industrial-border hover:border-[#FF5F1F] transition-colors">
+                <div className="absolute -top-4 -left-2 bg-[#FF5F1F] px-3 py-1">
+                  <span className="font-heading text-lg font-bold">{step.num}</span>
+                </div>
+                <h3 className="font-heading text-xl font-bold uppercase mt-2 mb-2">{step.title}</h3>
+                <p className="text-zinc-400 text-sm">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Advantages */}
+      <section className="bg-[#0A0A0A] py-20 px-6 md:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-12 text-center">
+            Почему мы
+          </h2>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { value: '10+', label: 'лет опыта' },
+              { value: '500+', label: 'выполненных объектов' },
+              { value: '100%', label: 'гарантия качества' },
+              { value: '450₽', label: 'от за м²' },
+            ].map((stat, i) => (
+              <div key={i} className="text-center">
+                <p className="font-heading text-5xl md:text-6xl font-bold text-[#FF5F1F]">{stat.value}</p>
+                <p className="text-zinc-400 mt-2 uppercase tracking-wider text-sm">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form */}
+      <section className="bg-[#1C1C1C] py-20 px-6" data-testid="contact-form-section">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-4 text-center">
+            Заказать расчёт
+          </h2>
+          <p className="text-zinc-400 text-center mb-8 text-lg">
+            Оставьте заявку и мы свяжемся с вами в ближайшее время
+          </p>
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-zinc-400 text-sm uppercase tracking-wider mb-2">Ваше имя</label>
+              <input
+                type="text"
+                required
+                data-testid="input-name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full bg-[#0A0A0A] border-2 border-zinc-800 focus:border-[#FF5F1F] px-6 py-4 text-white outline-none transition-colors"
+                placeholder="Введите ваше имя"
+              />
             </div>
-          ))}
+            
+            <div>
+              <label className="block text-zinc-400 text-sm uppercase tracking-wider mb-2">Телефон</label>
+              <input
+                type="tel"
+                required
+                data-testid="input-phone"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full bg-[#0A0A0A] border-2 border-zinc-800 focus:border-[#FF5F1F] px-6 py-4 text-white outline-none transition-colors"
+                placeholder="+7 (___) ___-__-__"
+              />
+            </div>
+            
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              data-testid="submit-btn"
+              className="w-full bg-[#FF5F1F] text-white hover:bg-[#E04F16] px-8 py-5 font-bold uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? 'Отправка...' : 'Заказать расчёт'}
+            </button>
+            
+            {submitStatus === 'success' && (
+              <div className="bg-green-900/50 border border-green-500 text-green-400 px-6 py-4 text-center">
+                Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.
+              </div>
+            )}
+            
+            {submitStatus === 'error' && (
+              <div className="bg-red-900/50 border border-red-500 text-red-400 px-6 py-4 text-center">
+                Произошла ошибка. Позвоните нам: 8 925 759 09 03
+              </div>
+            )}
+          </form>
+          
+          <p className="text-zinc-500 text-center text-sm mt-6">
+            Или позвоните: <a href="tel:+79257590903" className="text-[#FF5F1F] hover:underline">8 925 759 09 03</a>
+          </p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* CTA */}
-    <section className="bg-[#0A0A0A] py-20 px-6">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-6">
-          Закажите расчёт стоимости
-        </h2>
-        <p className="text-zinc-400 text-lg mb-8">
-          Свяжитесь с нами для бесплатной консультации и расчёта стоимости работ
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a 
-            href="tel:+79031677900" 
-            className="bg-[#FF5F1F] text-white hover:bg-[#E04F16] px-8 py-4 font-bold uppercase tracking-wider transition-all inline-flex items-center justify-center gap-3"
-          >
-            <Phone size={20} />
-            Позвонить
-          </a>
-          <a 
-            href="mailto:stroyblagoaero@mail.ru" 
-            className="border-2 border-white/20 text-white hover:border-[#FF5F1F] hover:text-[#FF5F1F] px-8 py-4 font-bold uppercase tracking-wider transition-all inline-flex items-center justify-center gap-3"
-          >
-            <Mail size={20} />
-            Написать
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <Footer />
-  </main>
-);
+      <Footer />
+    </main>
+  );
+};
 
 // Scroll to top on route change
 const ScrollToTopOnNav = () => {
