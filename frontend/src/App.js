@@ -113,8 +113,17 @@ const AirportSlide = () => {
   const prevImage = () => setCurrentImage((prev) => (prev - 1 + airportImages.length) % airportImages.length);
 
   return (
-    <section data-testid="slide-airport" className="slide bg-[#0A0A0A] py-16 px-6 md:px-12 lg:px-20">
-      <div className="max-w-7xl mx-auto h-full min-h-screen flex flex-col justify-center">
+    <section data-testid="slide-airport" className="slide relative py-16 px-6 md:px-12 lg:px-20">
+      {/* Background image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('/images/airport.jpg')`,
+        }}
+      />
+      <div className="absolute inset-0 bg-black/85" />
+      
+      <div className="relative z-10 max-w-7xl mx-auto h-full min-h-screen flex flex-col justify-center">
         {/* Header */}
         <div className="mb-8">
           <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Проект</p>
