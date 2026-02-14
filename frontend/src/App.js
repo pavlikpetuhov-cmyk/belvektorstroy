@@ -97,11 +97,12 @@ const Header = () => {
 
 // Hero Section
 const HeroSection = () => (
-  <section data-testid="section-hero" className="relative min-h-screen flex items-center justify-center pt-20">
+  <section data-testid="section-hero" className="relative min-h-screen flex items-center justify-center pt-20 bg-[#0A0A0A]">
     <div 
       className="absolute inset-0 bg-cover bg-center"
       style={{
         backgroundImage: `url('/images/hero.jpg')`,
+        backgroundColor: '#1C1C1C',
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
