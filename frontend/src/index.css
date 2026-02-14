@@ -41,7 +41,6 @@ body {
 
 .slide {
   min-height: 100vh;
-  scroll-snap-align: start;
   position: relative;
   overflow: hidden;
 }
