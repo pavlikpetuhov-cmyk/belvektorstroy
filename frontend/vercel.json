@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm install && npm run build",
+  "buildCommand": "yarn build",
   "outputDirectory": "build",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "yarn install",
   "framework": null
 }
