@@ -597,6 +597,37 @@ const HomePage = () => {
 
 // Plaster Page (Штукатурка)
 const PlasterPage = () => {
+  const [formData, setFormData] = useState({ name: '', phone: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('/send.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setSubmitStatus('success');
+        setFormData({ name: '', phone: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const workSteps = [
     { num: '01', title: 'Заявка', desc: 'По телефону или через форму обратной связи' },
     { num: '02', title: 'Замер', desc: 'Бесплатный выезд специалиста на объект' },
