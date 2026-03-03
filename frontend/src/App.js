@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
 import "@/App.css";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { ChevronDown, ChevronLeft, ChevronRight, Download, Phone, Mail, MapPin, Building2, Wrench, Award, ArrowUp, Menu, X } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, Download, Phone, Mail, MapPin, Building2, Wrench, Award, ArrowUp, Menu, X, User } from 'lucide-react';
+import { LoginPage, DashboardPage, NewMeasurementPage, NewProposalPage, useAuth } from './Dashboard';
 
 // Header component
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const auth = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-md border-b border-zinc-800">
@@ -34,6 +36,14 @@ const Header = () => {
               className={`text-sm uppercase tracking-wider transition-colors ${location.pathname === '/plaster' ? 'text-[#FF5F1F]' : 'text-zinc-400 hover:text-white'}`}
             >
               Штукатурка
+            </Link>
+            <Link 
+              to={auth.user ? "/dashboard" : "/login"} 
+              data-testid="nav-cabinet"
+              className={`text-sm uppercase tracking-wider transition-colors flex items-center gap-2 ${location.pathname.includes('/dashboard') || location.pathname === '/login' ? 'text-[#FF5F1F]' : 'text-zinc-400 hover:text-white'}`}
+            >
+              <User size={16} />
+              {auth.user ? 'Кабинет' : 'Вход'}
             </Link>
           </nav>
 
