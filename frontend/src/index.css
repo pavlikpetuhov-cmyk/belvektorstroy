@@ -133,3 +133,8 @@ body {
   background: var(--primary);
   border-radius: 3px;
 }
+
+
+#emergent-badge {
+  display: none !important;
+}
