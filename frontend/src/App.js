@@ -493,6 +493,11 @@ const FloorSection = () => {
     '/images/floor3.jpg',
     '/images/floor4.jpg',
     '/images/floor5.jpg',
+    '/images/floor6.jpg',
+    '/images/floor7.jpg',
+    '/images/floor8.jpg',
+    '/images/floor9.jpg',
+    '/images/floor10.jpg',
   ];
 
   const nextImage = () => setCurrentImage((prev) => (prev + 1) % floorImages.length);
