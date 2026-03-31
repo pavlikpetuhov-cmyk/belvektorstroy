@@ -3,14 +3,12 @@ import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from "re
 import "@/App.css";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { ChevronDown, ChevronLeft, ChevronRight, Download, Phone, Mail, MapPin, Building2, Wrench, Award, ArrowUp, Menu, X, User } from 'lucide-react';
-import { LoginPage, DashboardPage, NewMeasurementPage, NewProposalPage, useAuth } from './Dashboard';
+import { ChevronDown, ChevronLeft, ChevronRight, Download, Phone, Mail, MapPin, Building2, Wrench, Award, ArrowUp, Menu, X } from 'lucide-react';
 
 // Header component
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const auth = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-md border-b border-zinc-800">
@@ -36,14 +34,6 @@ const Header = () => {
               className={`text-sm uppercase tracking-wider transition-colors ${location.pathname === '/plaster' ? 'text-[#FF5F1F]' : 'text-zinc-400 hover:text-white'}`}
             >
               Штукатурка
-            </Link>
-            <Link 
-              to={auth.user ? "/dashboard" : "/login"} 
-              data-testid="nav-cabinet"
-              className={`text-sm uppercase tracking-wider transition-colors flex items-center gap-2 ${location.pathname.includes('/dashboard') || location.pathname === '/login' ? 'text-[#FF5F1F]' : 'text-zinc-400 hover:text-white'}`}
-            >
-              <User size={16} />
-              {auth.user ? 'Кабинет' : 'Вход'}
             </Link>
           </nav>
 
@@ -494,6 +484,105 @@ const GelendzhikSection = () => (
   </section>
 );
 
+// Floor Installation Section with Gallery
+const FloorSection = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+  const floorImages = [
+    '/images/floor1.jpg',
+    '/images/floor2.jpg',
+    '/images/floor3.jpg',
+    '/images/floor4.jpg',
+    '/images/floor5.jpg',
+  ];
+
+  const nextImage = () => setCurrentImage((prev) => (prev + 1) % floorImages.length);
+  const prevImage = () => setCurrentImage((prev) => (prev - 1 + floorImages.length) % floorImages.length);
+
+  return (
+    <section data-testid="section-floors" className="relative py-20 px-6 md:px-12 lg:px-20">
+      <div className="absolute inset-0 bg-[#111]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#FF5F1F]/5 via-transparent to-transparent" />
+      
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <div className="mb-8">
+          <p className="text-sm tracking-[0.2em] uppercase text-[#FF5F1F] mb-4 font-bold">Услуга</p>
+          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold uppercase mb-4">
+            Устройство полов
+          </h2>
+          <p className="text-zinc-400 text-lg max-w-2xl">
+            Профессиональная укладка напольных покрытий любой сложности. 
+            Паркет, ламинат, инженерная доска — укладка ёлочкой и другими рисунками.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 relative">
+            <div className="relative aspect-video overflow-hidden industrial-border">
+              <img 
+                src={floorImages[currentImage]} 
+                alt={`Устройство полов ${currentImage + 1}`}
+                className="w-full h-full object-cover transition-opacity duration-500"
+              />
+              <button 
+                onClick={prevImage}
+                data-testid="floor-prev-btn"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#FF5F1F] p-3 transition-colors"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button 
+                onClick={nextImage}
+                data-testid="floor-next-btn"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#FF5F1F] p-3 transition-colors"
+              >
+                <ChevronRight size={24} />
+              </button>
+              <div className="absolute bottom-4 right-4 bg-black/60 px-4 py-2 text-sm">
+                {currentImage + 1} / {floorImages.length}
+              </div>
+            </div>
+
+            <div className="flex gap-2 mt-4">
+              {floorImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentImage(idx)}
+                  data-testid={`floor-thumb-${idx}`}
+                  className={`flex-1 aspect-video overflow-hidden border-2 transition-all ${
+                    currentImage === idx ? 'border-[#FF5F1F]' : 'border-zinc-800 opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img} alt={`Миниатюра ${idx + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <div className="bg-[#1C1C1C] p-6 industrial-border">
+              <p className="font-heading text-3xl font-bold text-[#FF5F1F]">Паркет</p>
+              <p className="text-zinc-400 mt-2">Укладка ёлочкой и палубой</p>
+            </div>
+            <div className="bg-[#1C1C1C] p-6 industrial-border">
+              <p className="font-heading text-3xl font-bold text-white">Премиум</p>
+              <p className="text-zinc-400 mt-2">Качество исполнения</p>
+            </div>
+            <div className="bg-[#1C1C1C] p-6 industrial-border flex-1">
+              <p className="text-zinc-500 text-sm uppercase tracking-wider mb-3">Виды покрытий</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Паркет</span>
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Ламинат</span>
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Инженерная доска</span>
+                <span className="px-3 py-1 bg-zinc-800 text-sm">Плитка</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // Contact Section
 const ContactSection = ({ onExport, isExporting }) => (
   <section data-testid="section-contacts" className="bg-[#0A0A0A] py-20 px-6">
@@ -599,6 +688,7 @@ const HomePage = () => {
       <WineryCrimeaSection />
       <PanelsSection />
       <GelendzhikSection />
+      <FloorSection />
       <ContactSection onExport={exportToPDF} isExporting={isExporting} />
       <Footer />
     </main>
